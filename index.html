@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<canvas id="cs-bg"></canvas>
+
+
+<div class="welcome">
+    <h1>Welcome to My Profile</h1>
+</div>
+<div class="container">
+
+   
+    <div class="card">
+        <h2>About Me 👨‍💻</h2>
+        <img src="IMG_0243.jpeg" class="profile-img">
+        <p>
+            Hi! I am Jahn Lorence Mendoza 21 years old, a student who is passionate about learning technology and exploring new ideas. 
+            I enjoy solving problems and BrainStorming.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Education 🎓</h2>
+        <div class="list">
+            <p>College: Currently Studying at City College of Angeles</p>
+            <p>High School: Angeles City National Trade School</p>
+        </div>
+    </div>
+
+    
+    <div class="card">
+        <h2>My Projects in Midterms 📚</h2>
+        <div class="list">
+            <a href="MIDTERM 1.pdf">Midterm Lab Task 1: Data Cleaning and Preparation using Excel</a>
+            <a href="Midterm 2.pdf">Midterm Lab Task 2: Data Analysis using Pivot Table</a>
+            <a href="#">Midterm Lab Task 3: Data Prep and Cleaning and Modeling with Power Query</a>
+        </div>
+    </div>
+
+    
+    <div class="card">
+        <h2>Contact Me 📩</h2>
+        <p>If you want to get in touch, feel free to reach out at</p>
+        <div class="email">
+            <a href="mailto:jlmendoza23-0072@cca.edu.ph">jlmendoza23-0072@cca.edu.ph</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+const canvas = document.getElementById('cs-bg');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+
+const points = [];
+const numPoints = 50;
+for(let i=0;i<numPoints;i++){
+    points.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        vx: (Math.random()-0.5)*0.5,
+        vy: (Math.random()-0.5)*0.5
+    });
+}
+
+function animate(){
+    ctx.fillStyle = 'rgba(0,0,20,0.3)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    
+    for(let i=0;i<points.length;i++){
+        let p1 = points[i];
+        p1.x += p1.vx;
+        p1.y += p1.vy;
+
+        if(p1.x<0 || p1.x>canvas.width) p1.vx*=-1;
+        if(p1.y<0 || p1.y>canvas.height) p1.vy*=-1;
+
+        ctx.fillStyle = '#0ff';
+        ctx.beginPath();
+        ctx.arc(p1.x,p1.y,2,0,Math.PI*2);
+        ctx.fill();
+
+        for(let j=i+1;j<points.length;j++){
+            let p2 = points[j];
+            let dist = Math.hypot(p1.x-p2.x, p1.y-p2.y);
+            if(dist<150){
+                ctx.strokeStyle = 'rgba(0,255,255,'+(1-dist/150)+')';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(p1.x,p1.y);
+                ctx.lineTo(p2.x,p2.y);
+                ctx.stroke();
+            }
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+
+window.addEventListener('resize', ()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
